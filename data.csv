@@ -1,0 +1,51 @@
+Product Name,Barcode,Category,Cost Price,Selling Price,Stock
+Regular Veg Grilled Sandwich,1,Sandwiches,37.5,75,10
+Veg Cheese Grilled Sandwich,2,Sandwiches,45,90,10
+Cheese Chutny Grilled Sandwich,3,Sandwiches,45,90,10
+Barbeque Paneer Grilled Sandwich,4,Sandwiches,60,120,10
+Paneer Tikka Grilled Sandwich,5,Sandwiches,60,120,10
+Corn Paneer Grilled Sandwich,6,Sandwiches,60,120,10
+Veggi Classic Grilled Sandwich,7,Sandwiches,60,120,10
+Masala Grilled Sandwich,8,Sandwiches,45,90,10
+SOL Bites Special,9,Sandwiches,75,150,10
+SOL Bites KING,10,Sandwiches,75,150,10
+French Fries Plain,11,French Fries,30,60,10
+French Fries Plain,12,French Fries,35,70,10
+Periperi,13,French Fries,35,70,10
+Aaloo Tikki Burger,14,Burger,40,80,10
+Cheese Overload,15,Burger,49.5,99,10
+Veg Meyo,16,Burger,49.5,99,10
+Barbeque Paneer Veg,17,Burger,59.5,119,10
+Cappuccino,18,Coffee,15,30,10
+Espresso,19,Coffee,15,30,10
+Black Coffee,20,Coffee,15,30,10
+Americano,21,Coffee,15,30,10
+Mocha,22,Coffee,15,30,10
+Flavoured Cold Coffee,23,Cold Coffee,50,100,10
+Cold Coffee with Ice Cream,24,Cold Coffee,60,120,10
+Mojito,25,Mocktails,40,80,10
+Margarits,26,Mocktails,40,80,10
+Virgin Strawberry,27,Mocktails,40,80,10
+Blue Lagoon,28,Mocktails,40,80,10
+Appletini,29,Mocktails,40,80,10
+Oreo Chocolate Milk Shake,30,Thick Shakes,60,120,10
+Kitkat Milk Shake,31,Thick Shakes,60,120,10
+Chocolate Shake,32,Thick Shakes,60,120,10
+Butterscotch,33,Thick Shakes,60,120,10
+White Chocolate,34,Thick Shakes,60,120,10
+Wonder Vanilla,35,Thick Shakes,60,120,10
+Flavoured Ice Tea with BOBA,36,Boba,25,50,10
+Flavoured BOBA with Milk Base,37,Boba,40,80,10
+Tutti Fruitty Cookies,38,Cookies,275,550,10
+Jam Drops,39,Cookies,292.5,585,10
+Choco Chips,40,Cookies,310,620,10
+Butter Cookies,41,Cookies,280,560,10
+Vanilla Sable,42,Cookies,245,490,10
+Jeera Cookies,43,Cookies,250,500,10
+Palmera Cookies,44,Cookies,245,490,10
+Almond Dry Cake,45,Cake,312.5,625,10
+Tutti Fruitty Cake,46,Cake,292.5,585,10
+Marble Dry Cake,47,Cake,400,800,10
+Ragi Millets Cake,48,Cake,250,500,10
+Maida Bread,49,Bread,34,68,10
+Aatta Bread,50,Bread,35,70,10
