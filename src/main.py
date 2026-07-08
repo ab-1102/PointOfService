@@ -6,10 +6,11 @@ import BillMaker
 import json
 from pathlib import Path
 
-CONFIG_FILE = Path("../config/config.json")
+CONFIG_FILE = "D:\\doc\\PycharmProjects\\PointOfService\\config\\config.json"
 
 def load_config():
-    if CONFIG_FILE.exists():
+    if True:
+        print('Loading config file...')
         with open(CONFIG_FILE, "r") as f:
             return json.load(f)
 
@@ -27,6 +28,7 @@ if __name__ == "__main__":
     config = load_config()
     if config["database_path"] != "":
         dbms.DB_LOC = config["database_path"]
+        print(config["database_path"])
     if config["printer_name"] != "":
         BillMaker.PRINTER_NAME = config["printer_name"]
 

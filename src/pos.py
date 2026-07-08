@@ -33,7 +33,7 @@ class Printer:
 
         # Logo
         self.printer.image(
-            resource_path("../assets/logo.png"),
+            resource_path("assets/logo.png"),
             center=True,
             impl="bitImageRaster"
         )

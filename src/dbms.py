@@ -9,8 +9,7 @@ def resource_path(relative_path):
         return os.path.join(sys._MEIPASS, relative_path)
     return os.path.join(os.path.dirname(os.path.abspath(__file__)), relative_path)
 
-DB_LOC = resource_path("../assets/mPos.db")
-
+DB_LOC = "D:\\doc\\PycharmProjects\\PointOfService\\mPos.db"
 
 
 class POSDatabase:
