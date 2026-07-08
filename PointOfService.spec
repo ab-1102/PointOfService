@@ -10,9 +10,6 @@ datas += [
 datas += [
     ("D:/doc/PycharmProjects/PointOfService/assets/logo.png", "assets"),
 ]
-datas += [
-    ("D:/doc/PycharmProjects/PointOfService/config/config.json", "config"),
-]
 a = Analysis(
     ['D:\\doc\\PycharmProjects\\PointOfService\\src\\main.py'],
     pathex=[],
