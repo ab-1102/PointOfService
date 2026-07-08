@@ -58,7 +58,7 @@ class GUI(QMainWindow):
         super().__init__()
 
         # Load UI file
-        uic.loadUi(resource_path("pos.ui"), self)
+        uic.loadUi(resource_path("../ui/pos.ui"), self)
 
         font = QFont("Google Sans", 12)  # Change 11 to your desired size
         self.setFont(font)
@@ -506,7 +506,7 @@ class ProductEditPopup(QDialog):
 
     def __init__(self):
         super().__init__()
-        uic.loadUi(resource_path("productEditPopup.ui"), self)
+        uic.loadUi(resource_path("../ui/productEditPopup.ui"), self)
         self.setWindowFlag(Qt.WindowType.WindowStaysOnTopHint, True)
         self.PopupSaveButton.clicked.connect(lambda checked: self.popup_save.emit('save'))
         self.PopupCancleButton.clicked.connect(lambda checked: self.popup_cancel.emit('cancel'))
@@ -552,7 +552,7 @@ class ProductAddPopup(QDialog):
 
     def __init__(self):
         super().__init__()
-        uic.loadUi(resource_path("productAddPopup.ui"), self)
+        uic.loadUi(resource_path("../ui/productAddPopup.ui"), self)
         self.setWindowFlag(Qt.WindowType.WindowStaysOnTopHint, True)
         self.PopupSaveButton.clicked.connect(lambda checked: self.popup_add.emit('add'))
         self.PopupCancleButton.clicked.connect(lambda checked: self.popup_add.emit('cancle'))

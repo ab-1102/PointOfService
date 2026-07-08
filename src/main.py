@@ -1,5 +1,3 @@
-from PyQt6.QtGui import QFont
-from PyQt6 import QtWidgets
 from PyQt6.QtWidgets import QApplication
 import dbms
 import gui
@@ -8,7 +6,7 @@ import BillMaker
 import json
 from pathlib import Path
 
-CONFIG_FILE = Path("config.json")
+CONFIG_FILE = Path("../config/config.json")
 
 def load_config():
     if CONFIG_FILE.exists():
