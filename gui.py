@@ -6,6 +6,7 @@ from matplotlib.backends.backend_qtagg import FigureCanvasQTAgg
 from matplotlib.figure import Figure
 from typing import List, Any, Tuple, Dict
 
+from PyQt6.QtGui import QFont
 from PyQt6 import uic
 from PyQt6.QtWidgets import QMainWindow, QPushButton, QTableWidgetItem, QWidget, QDialog, QGridLayout, QHBoxLayout, \
     QLabel, QListWidgetItem, QSizePolicy, QVBoxLayout, QTreeWidgetItem, QLayout, QHeaderView
@@ -18,6 +19,28 @@ def resource_path(relative_path):
 
 def get_hue(index, divisions):
     return int(index * 359//divisions)
+
+BG = "#252526"
+BG2 = "#2D2D30"
+BG3 = "#3C3C3C"
+
+TEXT = "#F0F0F0"
+TEXT_DISABLED = "#808080"
+
+BORDER = "#555555"
+
+ACCENT = "#007ACC"
+ACCENT_HOVER = "#1F8CE6"
+ACCENT_PRESSED = "#0062A3"
+
+SUCCESS = "#2E7D32"
+WARNING = "#F9A825"
+ERROR = "#C62828"
+
+GRID = "#4B4B4B"
+HEADER = "#3A3A3A"
+
+SELECTION = "#264F78"
 
 class GUI(QMainWindow):
     # Button connections
@@ -35,6 +58,114 @@ class GUI(QMainWindow):
 
         # Load UI file
         uic.loadUi(resource_path("pos.ui"), self)
+
+        font = QFont("Google Sans", 12)  # Change 11 to your desired size
+        self.setFont(font)
+
+        self.setStyleSheet(f"""
+        QMainWindow {{
+            background: {BG};
+        }}
+
+        QWidget {{
+            background: {BG};
+            color: {TEXT};
+        }}
+
+        QLabel {{
+            color: {TEXT};
+            background: transparent;
+        }}
+
+        QPushButton {{
+            background: {BG3};
+            color: {TEXT};
+            border: 1px solid {BORDER};
+            border-radius: 6px;
+            padding: 5px;
+        }}
+
+        QPushButton:hover {{
+            background: #4A4A4A;
+        }}
+
+        QPushButton:pressed {{
+            background: #202020;
+        }}
+
+        QPushButton:disabled {{
+            background: #303030;
+            color: {TEXT_DISABLED};
+        }}
+
+        QLineEdit,
+        QComboBox {{
+            background: {BG2};
+            color: {TEXT};
+            border: 1px solid {BORDER};
+            padding: 4px;
+        }}
+
+        QComboBox QAbstractItemView {{
+            background: {BG2};
+            color: {TEXT};
+            selection-background-color: {SELECTION};
+        }}
+
+        QListWidget,
+        QTableWidget,
+        QTreeWidget {{
+            background: {BG2};
+            alternate-background-color: {BG};
+            color: {TEXT};
+            border: 1px solid {BORDER};
+            gridline-color: {GRID};
+            selection-background-color: {SELECTION};
+        }}
+
+        QHeaderView::section {{
+            background: {HEADER};
+            color: {TEXT};
+            border: 1px solid {BORDER};
+            padding: 4px;
+        }}
+
+        QTabWidget::pane {{
+            border: 1px solid {BORDER};
+        }}
+
+        QTabBar::tab {{
+            background: {BG3};
+            color: {TEXT};
+            padding: 8px;
+        }}
+
+        QTabBar::tab:selected {{
+            background: {ACCENT};
+        }}
+
+        QScrollBar:vertical,
+        QScrollBar:horizontal {{
+            background: {BG};
+        }}
+
+        QScrollBar::handle {{
+            background: {BG3};
+        }}
+
+        QMenuBar,
+        QMenu {{
+            background: {BG2};
+            color: {TEXT};
+        }}
+
+        QToolTip {{
+            background: {BG3};
+            color: {TEXT};
+            border: 1px solid {BORDER};
+        }}
+        """)
+
         # Initial variable setup
         self.inventory = None
         self.InventoryAddNewPushButton.clicked.connect(self.add_new_product)
@@ -95,8 +226,6 @@ class GUI(QMainWindow):
                 # Adding edit button at the end of each row
                 self.InventoryList.setCellWidget(row, len(self.inventory[0]), edit_btn) # as index starts from 0
 
-            header = self.InventoryList.horizontalHeader()
-            header.moveSection(1, 3)
             self.InventoryList.setSortingEnabled(True)
         else:
             self.inventory = inv
@@ -139,13 +268,15 @@ class GUI(QMainWindow):
                 c_col = q % 2
                 c_btn = QPushButton(category)
 
-                base = QColor.fromHsl(get_hue(q, len(self.categories)), 220, 50)  # Hue, Saturation, Lightness
+                base = QColor.fromHsl(get_hue(q, len(self.categories)), 125, 70)  # Hue, Saturation, Lightness
                 hover = base.lighter(110)  # 10% lighter
                 pressed = base.darker(130)  # 30% darker
                 checked = base.darker(160)
 
                 c_btn.setStyleSheet(f"""
                 QPushButton {{
+                    font-family: "Google Sans";
+                    font-size: 12pt;
                     background-color: {base.name()};
                     color: white;
                     border: none;
@@ -174,6 +305,8 @@ class GUI(QMainWindow):
                     btn.setMinimumHeight(100)
                     btn.setStyleSheet(f"""
                     QPushButton {{
+                        font-family: "Google Sans";
+                        font-size: 12pt;
                         border-width: 2px;
                         border-style: solid;
                         border-color: {base.name()};
@@ -357,7 +490,7 @@ class ProductEditPopup(QDialog):
     def __init__(self):
         super().__init__()
         uic.loadUi(resource_path("productEditPopup.ui"), self)
-
+        self.setWindowFlag(Qt.WindowType.WindowStaysOnTopHint, True)
         self.PopupSaveButton.clicked.connect(lambda checked: self.popup_save.emit('save'))
         self.PopupCancleButton.clicked.connect(lambda checked: self.popup_cancel.emit('cancel'))
 
@@ -402,7 +535,7 @@ class ProductAddPopup(QDialog):
     def __init__(self):
         super().__init__()
         uic.loadUi(resource_path("productAddPopup.ui"), self)
-
+        self.setWindowFlag(Qt.WindowType.WindowStaysOnTopHint, True)
         self.PopupSaveButton.clicked.connect(lambda checked: self.popup_add.emit('add'))
         self.PopupCancleButton.clicked.connect(lambda checked: self.popup_add.emit('cancle'))
 
