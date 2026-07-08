@@ -1,5 +1,7 @@
 import os
 import sys
+
+from PyQt6.QtGui import QColor
 from matplotlib.backends.backend_qtagg import FigureCanvasQTAgg
 from matplotlib.figure import Figure
 from typing import List, Any, Tuple, Dict
@@ -13,6 +15,9 @@ def resource_path(relative_path):
     if getattr(sys, "frozen", False):
         return os.path.join(sys._MEIPASS, relative_path)
     return os.path.join(os.path.dirname(os.path.abspath(__file__)), relative_path)
+
+def get_hue(index, divisions):
+    return int(index * 359//divisions)
 
 class GUI(QMainWindow):
     # Button connections
@@ -54,15 +59,26 @@ class GUI(QMainWindow):
     def update_inventory(self, inv: List[List] = None):
         if inv is not None:
             self.inventory = inv
+            self.InventoryList.setSortingEnabled(False)
             self.InventoryList.clearContents()  # remove cell contents
             self.InventoryList.setRowCount(len(self.inventory))  # set exact rows
             self.InventoryList.setColumnCount(len(self.inventory[0]) + 1) # set 1+ column for button
             self.InventoryList.setHorizontalHeaderLabels(["ID", "Name", "Barcode", "Category", "Cost Price", "Sales Price", "Stock", ""])
 
+            self.InventoryList.setColumnWidth(0, 60)  # ID
+            self.InventoryList.setColumnWidth(1, 300)  # Name
+            self.InventoryList.setColumnWidth(2, 120)  # Barcode
+            self.InventoryList.setColumnWidth(3, 150)  # Category
+            self.InventoryList.setColumnWidth(4, 100)  # Cost Price
+            self.InventoryList.setColumnWidth(5, 100)  # Sales Price
+            self.InventoryList.setColumnWidth(6, 80)  # Stock
+            self.InventoryList.setColumnWidth(7, 80)  # Edit button
+
             for row, row_data in enumerate(self.inventory):
                 for col, value in enumerate(row_data):
                     item = QTableWidgetItem()
                     item.setData(Qt.ItemDataRole.DisplayRole, value)
+                    item.setData(Qt.ItemDataRole.EditRole, value)
 
                     self.InventoryList.setItem(
                         row,
@@ -79,6 +95,9 @@ class GUI(QMainWindow):
                 # Adding edit button at the end of each row
                 self.InventoryList.setCellWidget(row, len(self.inventory[0]), edit_btn) # as index starts from 0
 
+            header = self.InventoryList.horizontalHeader()
+            header.moveSection(1, 3)
+            self.InventoryList.setSortingEnabled(True)
         else:
             self.inventory = inv
 
@@ -119,8 +138,33 @@ class GUI(QMainWindow):
                 c_row = q // 2
                 c_col = q % 2
                 c_btn = QPushButton(category)
-                # c_btn.setMinimumHeight(70)
-                # c_btn.setFixedWidth(130)
+
+                base = QColor.fromHsl(get_hue(q, len(self.categories)), 220, 50)  # Hue, Saturation, Lightness
+                hover = base.lighter(110)  # 10% lighter
+                pressed = base.darker(130)  # 30% darker
+                checked = base.darker(160)
+
+                c_btn.setStyleSheet(f"""
+                QPushButton {{
+                    background-color: {base.name()};
+                    color: white;
+                    border: none;
+                    border-radius: 6px;
+                }}
+
+                QPushButton:hover {{
+                    background-color: {hover.name()};
+                }}
+
+                QPushButton:pressed {{
+                    background-color: {pressed.name()};
+                }}
+
+                QPushButton:checked {{
+                    background-color: {checked.name()};
+                }}
+                """)
+
                 c_btn.clicked.connect(lambda checked=False, index = q: self.ProductCategoryTabs.setCurrentIndex(index))
 
                 self.CategoryButtonsTable.setCellWidget(c_row, c_col, c_btn)
@@ -128,6 +172,27 @@ class GUI(QMainWindow):
                 for i, product in enumerate(data[category]):
                     btn = QPushButton(product[1])
                     btn.setMinimumHeight(100)
+                    btn.setStyleSheet(f"""
+                    QPushButton {{
+                        border-width: 2px;
+                        border-style: solid;
+                        border-color: {base.name()};
+                        border-radius: 10px;
+                        background-color: #393939; 
+                    }}
+                    QPushButton:hover {{
+                        background-color: #474747;
+                    }}
+    
+                    QPushButton:pressed {{
+                        background-color: #1E1E1E;
+                    }}
+    
+                    QPushButton:checked {{
+                        background-color: #1E1E1E;
+                    }}
+                    """)
+
                     if product[6] <= 0:
                         btn.setEnabled(False)
                     else:

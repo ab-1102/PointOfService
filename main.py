@@ -18,6 +18,8 @@ if __name__ == "__main__":
     application = QApplication(sys.argv)
     app = gui.GUI()
     app.showFullScreen()
+    app.raise_()
+    app.activateWindow()
     app.setFont(QFont("Google Sans", 12))
     popup = gui.ProductEditPopup()
     addPopup = gui.ProductAddPopup()
