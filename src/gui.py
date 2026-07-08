@@ -190,6 +190,9 @@ class GUI(QMainWindow):
         QVBoxLayout(self.IMgraph).addWidget(self.im_graph)
         QVBoxLayout(self.Cgraph).addWidget(self.c_graph)
 
+    def set_version(self, version):
+        self.VersionLable.setText(f"Version: {version}")
+
     def get_config_update(self):
         return [self.PrinterNameLineEdit.text(),self.DatabasePathLineEdit.text()]
 

@@ -1,12 +1,44 @@
+import json
+import requests
+from packaging.version import Version
+
+
+
+url = "https://api.github.com/repos/ab-1102/PointOfService/releases/latest"
+
+response = requests.get(url, timeout=10)
+response.raise_for_status()
+
+release = response.json()
+
+print(release["tag_name"])
+
+VERSION_FILE = "D:\\doc\\PycharmProjects\\PointOfService\\version.json"
+
+def load_version():
+    with open(VERSION_FILE, "r") as version_file:
+        return json.load(version_file)
+
+version = load_version()
+
+
+current = Version(version["version"])
+latest = Version(release["tag_name"])
+
+if latest > current:
+    print("Update available")
+
+
+
+CONFIG_FILE = "D:\\doc\\PycharmProjects\\PointOfService\\config\\config.json"
+
 from PyQt6.QtWidgets import QApplication
 import dbms
 import gui
 import sys
 import BillMaker
-import json
 from pathlib import Path
 
-CONFIG_FILE = "D:\\doc\\PycharmProjects\\PointOfService\\config\\config.json"
 
 def load_config():
     if True:
@@ -46,6 +78,7 @@ if __name__ == "__main__":
     app.raise_()
     app.activateWindow()
     app.set_config(config["printer_name"], config["database_path"])
+    app.set_version(version["version"])
     popup = gui.ProductEditPopup()
     addPopup = gui.ProductAddPopup()
 
