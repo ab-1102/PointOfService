@@ -5,8 +5,33 @@ import dbms
 import gui
 import sys
 import BillMaker
+import json
+from pathlib import Path
+
+CONFIG_FILE = Path("config.json")
+
+def load_config():
+    if CONFIG_FILE.exists():
+        with open(CONFIG_FILE, "r") as f:
+            return json.load(f)
+
+    return {
+        "database_path": "",
+        "printer_name": ""
+    }
+
+def save_config(config):
+    with open(CONFIG_FILE, "w") as f:
+        json.dump(config, f, indent=4)
 
 if __name__ == "__main__":
+
+    config = load_config()
+    if config["database_path"] != "":
+        dbms.DB_LOC = config["database_path"]
+    if config["printer_name"] != "":
+        BillMaker.PRINTER_NAME = config["printer_name"]
+
     # DBMS Setup and Data Fetch
     db = dbms.POSDatabase()
     inventory = db.get_all_products()
@@ -20,6 +45,7 @@ if __name__ == "__main__":
     app.showFullScreen()
     app.raise_()
     app.activateWindow()
+    app.set_config(config["printer_name"], config["database_path"])
     popup = gui.ProductEditPopup()
     addPopup = gui.ProductAddPopup()
 
@@ -128,6 +154,14 @@ if __name__ == "__main__":
             bill.clear()
             refresh()
     app.finished_billing.connect(finish_bill)
+
+
+    def update_config(config_data):
+        config = load_config()
+        config["printer_name"] = config_data[0]
+        config["database_path"] = config_data[1]
+        save_config(config)
+    app.config_update.connect(update_config)
 
     # Closer
     if application.exec()==0:

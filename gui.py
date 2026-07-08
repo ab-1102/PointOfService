@@ -50,6 +50,7 @@ class GUI(QMainWindow):
     bill_edit = pyqtSignal(list)
     finished_billing = pyqtSignal(list)
     switch_tab = pyqtSignal(str)
+    config_update = pyqtSignal(list)
 
     # Class Variables
     categories = []
@@ -171,6 +172,8 @@ class GUI(QMainWindow):
         self.InventoryAddNewPushButton.clicked.connect(self.add_new_product)
         self.PayPushButton.clicked.connect(lambda checked: self.finished_billing.emit(['pay', self.BillingNameLineEdit.text(), self.BillingPhoneNoLineEdit.text(), self.paymentMethodComboBox.currentText()]))
         self.CanclePushButton.clicked.connect(lambda checked: self.finished_billing.emit(['cancel', self.BillingNameLineEdit.text(), self.BillingPhoneNoLineEdit.text(), self.paymentMethodComboBox.currentText()]))
+        self.ConfigSavePushButton.clicked.connect(lambda checked: self.config_update.emit(self.get_config_update()))
+        self.CloseButton.clicked.connect(lambda checked: self.close())
 
         # Graphs
         self.drt_graph = GraphWidget()
@@ -186,6 +189,13 @@ class GUI(QMainWindow):
         QVBoxLayout(self.PAgraph).addWidget(self.pa_graph)
         QVBoxLayout(self.IMgraph).addWidget(self.im_graph)
         QVBoxLayout(self.Cgraph).addWidget(self.c_graph)
+
+    def get_config_update(self):
+        return [self.PrinterNameLineEdit.text(),self.DatabasePathLineEdit.text()]
+
+    def set_config(self, printer_name, database_path):
+        self.PrinterNameLineEdit.setText(printer_name)
+        self.DatabasePathLineEdit.setText(database_path)
 
     def update_inventory(self, inv: List[List] = None):
         if inv is not None:
@@ -227,6 +237,9 @@ class GUI(QMainWindow):
                 self.InventoryList.setCellWidget(row, len(self.inventory[0]), edit_btn) # as index starts from 0
 
             self.InventoryList.setSortingEnabled(True)
+            font = self.InventoryList.font()
+            font.setPointSize(12)
+            self.InventoryList.setFont(font)
         else:
             self.inventory = inv
 
@@ -420,6 +433,10 @@ class GUI(QMainWindow):
                     element.addChild(product)
                 element.addChild(QTreeWidgetItem(['', '', '', '']))
                 self.BillsTreeWidget.addTopLevelItem(element)
+            self.BillsTreeWidget.setSortingEnabled(False)
+            font = self.BillsTreeWidget.font()
+            font.setPointSize(12)
+            self.BillsTreeWidget.setFont(font)
 
     def line_edit_reset(self):
         self.BillingNameLineEdit.setText('')
@@ -497,6 +514,7 @@ class ProductEditPopup(QDialog):
         self.setWindowFlag(
             Qt.WindowType.FramelessWindowHint
         )
+        self.PopupSaveButton.setFocus()
 
     def popup_data(self):
         return [

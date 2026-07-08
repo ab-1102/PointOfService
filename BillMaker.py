@@ -1,4 +1,8 @@
 import pos
+
+PRINTER_NAME = "Rugtek RP326"
+pos.PRINTER_NAME = PRINTER_NAME
+
 class Bill:
     def __init__(self):
         super().__init__()

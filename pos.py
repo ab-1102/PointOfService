@@ -4,6 +4,8 @@ from escpos.printer import Win32Raw
 import os
 import sys
 
+PRINTER_NAME = "Rugtek RP326"
+
 def resource_path(relative_path):
     if getattr(sys, "frozen", False):
         return os.path.join(sys._MEIPASS, relative_path)
@@ -18,7 +20,7 @@ class Printer:
         self.total = 0
         self.tokens = []
 
-        self.printer = Win32Raw("Rugtek RP326")
+        self.printer = Win32Raw(PRINTER_NAME)
         self.printer.profile.profile_data["media"]["width"]["pixels"] = 576
 
         self.margin = "  "
