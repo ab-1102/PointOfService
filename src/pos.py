@@ -108,6 +108,7 @@ class Printer:
         self.line("Visit Again")
         self.line("This is a computer-generated invoice.")
         self.line("Food once served will not be taken back.")
+        self.line("FSSAI : 21426850004155")
         self.line("")
 
         self.printer.cut()
