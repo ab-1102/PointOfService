@@ -1,7 +1,13 @@
 import json
 import requests
+import os
+import sys
 from packaging.version import Version
 
+def resource_path(relative_path):
+    if getattr(sys, "frozen", False):
+        return os.path.join(sys._MEIPASS, relative_path)
+    return os.path.join(os.path.dirname(os.path.abspath(__file__)), relative_path)
 
 
 url = "https://api.github.com/repos/ab-1102/PointOfService/releases/latest"
@@ -13,7 +19,7 @@ release = response.json()
 
 print(release["tag_name"])
 
-VERSION_FILE = "D:\\doc\\PycharmProjects\\PointOfService\\version.json"
+VERSION_FILE = resource_path("version.json")
 
 def load_version():
     with open(VERSION_FILE, "r") as version_file:
@@ -30,12 +36,11 @@ if latest > current:
 
 
 
-CONFIG_FILE = "D:\\doc\\PycharmProjects\\PointOfService\\config\\config.json"
+CONFIG_FILE = resource_path("config/config.json")
 
 from PyQt6.QtWidgets import QApplication
 import dbms
 import gui
-import sys
 import BillMaker
 from pathlib import Path
 
