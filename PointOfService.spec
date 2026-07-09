@@ -13,6 +13,9 @@ datas += [
 datas += [
     ("D:/doc/PycharmProjects/PointOfService/config/config.json", "config"),
 ]
+datas += [
+    ("D:/doc/PycharmProjects/PointOfService/config/version.json", "config"),
+]
 a = Analysis(
     ['D:\\doc\\PycharmProjects\\PointOfService\\src\\main.py'],
     pathex=[],

@@ -19,7 +19,7 @@ release = response.json()
 
 print(release["tag_name"])
 
-VERSION_FILE = resource_path("version.json")
+VERSION_FILE = resource_path("config/version.json")
 
 def load_version():
     with open(VERSION_FILE, "r") as version_file:
