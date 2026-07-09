@@ -35,15 +35,13 @@ if latest > current:
     print("Update available")
 
 
-
-CONFIG_FILE = resource_path("config/config.json")
-
 from PyQt6.QtWidgets import QApplication
 import dbms
 import gui
 import BillMaker
 from pathlib import Path
 
+CONFIG_FILE = resource_path("config/config.json")
 
 def load_config():
     if True:

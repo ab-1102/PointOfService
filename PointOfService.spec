@@ -11,6 +11,9 @@ datas += [
     ("D:/doc/PycharmProjects/PointOfService/assets/logo.png", "assets"),
 ]
 datas += [
+    ("D:/doc/PycharmProjects/PointOfService/assets/mPos.db", "assets"),
+]
+datas += [
     ("D:/doc/PycharmProjects/PointOfService/config/config.json", "config"),
 ]
 datas += [
