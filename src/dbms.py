@@ -4,18 +4,24 @@ from typing import List, Any, Dict, Tuple, Optional
 import csv
 import os
 import sys
+from pathlib import Path
+
 def resource_path(relative_path):
     if getattr(sys, "frozen", False):
         return os.path.join(sys._MEIPASS, relative_path)
     return os.path.join(os.path.dirname(os.path.abspath(__file__)), relative_path)
 
-DB_LOC = "D:\\doc\\PycharmProjects\\PointOfService\\assets\\mPos.db"
+DB_LOC = "assets/mPos.db"
 
 
 class POSDatabase:
     def __init__(self):
-        self.conn = sqlite3.connect(DB_LOC)
+        global DB_LOC
+        DB_LOC = resource_path(DB_LOC)
         print('db: ', 'db loc = ', DB_LOC)
+        print(Path(DB_LOC).exists())
+        print(Path(DB_LOC).is_file())
+        self.conn = sqlite3.connect(DB_LOC)
         self.cursor = self.conn.cursor()
         self.create_tables()
         self.create_trigger()
